@@ -1,5 +1,6 @@
 import React from 'react';
-import { Form, Button, Icon } from 'antd';
+import { LockOutlined, MailOutlined } from '@ant-design/icons';
+import { Button, Form } from 'antd';
 import FormBuilder from 'antd-form-builder';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -8,7 +9,9 @@ import { USER_FIND_ONE, USER_SIGN_UP } from '../../../api/user';
 import * as action from '../../../store/actions';
 
 function SignUpForm(props) {
-  const { form, auth, getCurrentUser } = props;
+  const { auth, getCurrentUser } = props;
+
+  const [form] = FormBuilder.useForm();
 
   const handleSignUpSubmit = async (event) => {
     event.preventDefault();
@@ -37,7 +40,7 @@ function SignUpForm(props) {
         hasFeedback: true,
         required: true,
         widgetProps: {
-          prefix: <Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />,
+          prefix: <MailOutlined style={{ color: 'rgba(0,0,0,.25)' }} />,
         },
         placeholder: 'Email',
         rules: [
@@ -75,7 +78,7 @@ function SignUpForm(props) {
           }
         },
         widgetProps: {
-          prefix: <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />,
+          prefix: <LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />,
         },
         placeholder: 'Password',
         rules: [
@@ -96,7 +99,7 @@ function SignUpForm(props) {
         widget: 'password',
         required: true,
         widgetProps: {
-          prefix: <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />,
+          prefix: <LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />,
         },
         placeholder: 'Confirm Password',
         rules: [
@@ -129,11 +132,6 @@ function SignUpForm(props) {
 }
 
 SignUpForm.propTypes = {
-  form: PropTypes.shape({
-    isFieldTouched: PropTypes.func.isRequired,
-    getFieldValue: PropTypes.func.isRequired,
-    validateFields: PropTypes.func.isRequired,
-  }).isRequired,
   auth: PropTypes.func.isRequired,
   getCurrentUser: PropTypes.func.isRequired,
 };
@@ -145,7 +143,4 @@ const mapDispatchToProps = (dispatch) => ({
   getCurrentUser: () => dispatch(action.getCurrentUser()),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Form.create({ name: 'sign_up_form' })(SignUpForm));
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);

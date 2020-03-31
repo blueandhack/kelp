@@ -1,12 +1,15 @@
 import React from 'react';
-import { Form, Button, Icon, Input } from 'antd';
+import { LockOutlined, MailOutlined } from '@ant-design/icons';
+import { Button, Input, Form } from 'antd';
 import FormBuilder from 'antd-form-builder';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as action from '../../../store/actions';
 
 function LoginForm(props) {
-  const { form, auth, getCurrentUser } = props;
+  const { auth, getCurrentUser } = props;
+
+  const [form] = FormBuilder.useForm();
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
@@ -31,7 +34,7 @@ function LoginForm(props) {
         required: true,
         placeholder: 'Email',
         widgetProps: {
-          prefix: <Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />,
+          prefix: <MailOutlined style={{ color: 'rgba(0,0,0,.25)' }} />,
         },
       },
       {
@@ -40,7 +43,7 @@ function LoginForm(props) {
         widget: 'password',
         placeholder: 'Password',
         widgetProps: {
-          prefix: <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />,
+          prefix: <LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />,
         },
       },
     ],
@@ -62,7 +65,6 @@ function LoginForm(props) {
 }
 
 LoginForm.propTypes = {
-  form: PropTypes.shape({ validateFields: PropTypes.func }).isRequired,
   auth: PropTypes.func.isRequired,
   getCurrentUser: PropTypes.func.isRequired,
 };
@@ -74,7 +76,4 @@ const mapDispatchToProps = (dispatch) => ({
   getCurrentUser: () => dispatch(action.getCurrentUser()),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Form.create({ name: 'login_form' })(LoginForm));
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
