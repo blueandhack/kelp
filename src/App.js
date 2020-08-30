@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import KelpRoutes from './routes';
 import * as actions from './store/actions';
 import Layout from './helper/Layout/Layout';
-import './App.css';
+import './App.less';
 
 class App extends Component {
   constructor(props) {
