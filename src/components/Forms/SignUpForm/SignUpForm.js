@@ -11,26 +11,21 @@ import * as action from '../../../store/actions';
 function SignUpForm(props) {
   const { auth, getCurrentUser } = props;
 
-  const [form] = FormBuilder.useForm();
+  const [form] = Form.useForm();
 
-  const handleSignUpSubmit = async (event) => {
-    event.preventDefault();
-    await form.validateFields(async (err, values) => {
-      if (!err) {
-        console.log(values);
-        const { email, password } = values;
-        const response = await apolloClient.mutate({
-          mutation: USER_SIGN_UP,
-          variables: {
-            email,
-            password,
-          },
-        });
-        console.log(response);
-        await auth(email, password);
-        await getCurrentUser();
-      }
+  const handleSignUpSubmit = async (values) => {
+    console.log(values);
+    const { email, password } = values;
+    const response = await apolloClient.mutate({
+      mutation: USER_SIGN_UP,
+      variables: {
+        email,
+        password,
+      },
     });
+    console.log(response);
+    await auth(email, password);
+    await getCurrentUser();
   };
 
   const meta = {
@@ -119,7 +114,7 @@ function SignUpForm(props) {
 
   return (
     <div>
-      <Form onSubmit={handleSignUpSubmit}>
+      <Form onFinish={handleSignUpSubmit}>
         <FormBuilder meta={meta} form={form} />
         <Form.Item wrapperCol={{ span: 24 }}>
           <Button type="primary" htmlType="submit">

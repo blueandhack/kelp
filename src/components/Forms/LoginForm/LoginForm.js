@@ -9,22 +9,16 @@ import * as action from '../../../store/actions';
 function LoginForm(props) {
   const { auth, getCurrentUser } = props;
 
-  const [form] = FormBuilder.useForm();
+  const [form] = Form.useForm();
 
-  const handleLoginSubmit = async (event) => {
-    event.preventDefault();
-    await form.validateFields(async (err, values) => {
-      if (!err) {
-        console.log(values);
-        const { email, password } = values;
-        try {
-          await auth(email, password);
-          await getCurrentUser();
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    });
+  const handleLoginSubmit = async (values) => {
+    const { email, password } = values;
+    try {
+      await auth(email, password);
+      await getCurrentUser();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const meta = {
@@ -51,7 +45,7 @@ function LoginForm(props) {
 
   return (
     <div>
-      <Form onSubmit={handleLoginSubmit}>
+      <Form onFinish={handleLoginSubmit}>
         <FormBuilder meta={meta} form={form} />
         <Form.Item wrapperCol={{ span: 24 }}>
           <Button type="primary" htmlType="submit">
